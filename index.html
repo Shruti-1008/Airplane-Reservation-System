@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Airline System</title>
+
+<style>
+
+body {
+    padding-top: 80px;
+    font-family: Arial;
+    color: white;
+    text-align: center;
+
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #020617, #334155);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+}
+
+@keyframes zoomBg {
+    0% { background-size: 100%; }
+    100% { background-size: 110%; }
+}
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* INPUTS + DROPDOWNS */
+
+input, select {
+    width: 250px;
+    padding: 12px 15px;
+    margin: 8px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    outline: none;
+    
+    background: #1e293b;
+    color: white;
+
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+/* NAME BOX BIGGER */
+#name {
+    width: 300px;
+    font-size: 17px;
+}
+
+/* DATE */
+#date {
+    width: 220px;
+}
+
+/* HOVER + FOCUS EFFECT ✨ */
+input:focus, select:focus {
+    box-shadow: 0 0 10px #38bdf8;
+    transform: scale(1.03);
+}
+
+.card {
+    background: linear-gradient(145deg, #1e293b, #334155); /* bluish gradient */
+    padding: 18px;
+    margin: 15px auto;
+    border-radius: 14px;
+    width: 500px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.card input,
+.card select {
+    display: block;
+    margin: 10px auto;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(56,189,248,0.3);
+}
+.card button {
+    display: block;
+    margin: 20px auto; /* centers it */
+}
+
+button {
+    padding: 10px 18px;
+    margin: 8px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #38bdf8, #6366f1);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(56,189,248,0.4);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+#flights {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centers cards */
+}
+#date::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* 🔥 turns it white */
+    cursor: pointer;
+}
+.flight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* keeps button centered vertically */
+    width: 500px;
+}
+
+/* BIG TIME */
+.time-box {
+    font-size: 20px;
+    font-weight: bold;
+    color: #38bdf8;
+    width: 120px;
+    text-align: left;
+}
+
+/* DETAILS */
+.flight-info {
+    flex: 1;
+    text-align: left;
+}
+
+.flight-left {
+    text-align: left;
+}
+
+.seat-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.row-number {
+    width: 30px;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    margin: 3px;
+    line-height: 40px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.aisle {
+    width: 20px;
+}
+
+.available { background: #22c55e; }
+.selected { background: #facc15; color: black; }
+.booked { background: #ef4444; cursor: not-allowed; }
+
+.ticket {
+    background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+    color: black;
+    padding: 25px;
+    margin: 30px auto;
+
+    width: 80%;        /* 🔥 stretched */
+    max-width: 900px;  /* not too big */
+
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+/* left + right sections */
+.ticket-left {
+    width: 60%;
+    text-align: left;
+}
+
+
+.ticket-right {
+    width: 35%;
+    text-align: left;
+}
+
+/* vertical divider */
+.ticket-divider {
+    width: 2px;
+    background: #bbb;
+    margin: 0 20px;
+}
+
+.ticket::before,
+.ticket::after {
+    width: 16px;
+    height: 16px;
+    background: #0f172a;
+}
+
+.time-right {
+    font-size: 16px;
+    font-weight: bold;
+    color: #38bdf8;
+    margin-right: 20px;
+    min-width: 140px;
+    text-align: right;
+}
+
+.ticket .cut-right {
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: #0f172a;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+.booking-card {
+    width: 500px;
+    padding: 25px;
+    text-align: center;
+}
+#weatherBox {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.section {
+    margin: 20px 0;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-group button {
+    min-width: 120px;
+}
+
+.confirm-btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 16px;
+}
+
+h1, h2, h3 {
+    color: white;
+}
+h5 {
+    color: #020617;
+}
+#plane {
+    position: fixed;
+    top: 20%;
+    left: -100px;
+    width: 60px;
+    opacity: 0.8;
+    pointer-events: none;
+
+    animation: fly 15s linear infinite;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    padding: 15px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    
+
+    
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 25px;
+    margin-right: 60px;
+}
+
+.nav-buttons a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.nav-buttons a:hover {
+    color: #38bdf8;
+}
+.alert-box {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+
+    background: #1e293b;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+
+    display: none;
+    z-index: 999;
+}
+.big-cloud {
+    position: fixed;
+    bottom: -180px;
+    left: -50%; /* start off-screen */
+    width: 200%;
+    height: 40%; /* bottom half */
+
+    background: url("https://cdn-icons-png.flaticon.com/512/414/414927.png") repeat-x;
+    background-size: 300px;
+
+    opacity: 0.1;
+    pointer-events: none;
+
+    animation: moveCloud 60s linear infinite;
+}
+.next-btn {
+    margin-top: 40px; /* 🔥 only this button moves */
+}
+@keyframes moveCloud {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+</style>
+</head>
+
+<body>
+<div class="big-cloud"></div>
+<h1>✈ Airline Reservation</h1>
+<div class="navbar">
+    <div class="logo">✈ Airline Reservation</div>
+    
+    <div class="nav-buttons">
+        <a href="home.html">Home</a>
+        
+        <a href="support.html">Support</a>
+        <a href="login.html">Login</a>
+        
+    </div>
+</div>
+<div id="homePage">
+<div id="flightAlert" class="alert-box"></div>
+<div class="card">
+    <input id="name" placeholder="Enter Name">
+
+    <br><br>
+
+    <select id="from">
+       <option value="">Select From</option>
+       <option>Chennai</option>
+       <option>Delhi</option>
+       <option>Mumbai</option>
+       <option>Bangalore</option>
+       <option>Hyderabad</option>
+    </select>
+
+    <select id="to">
+       <option value="">Select To</option>
+       <option>Chennai</option>
+       <option>Delhi</option>
+       <option>Mumbai</option>
+       <option>Bangalore</option>
+       <option>Hyderabad</option>
+    </select>
+
+    <br><br>
+
+    <input type="date" id="date">
+
+    <br><br>
+
+    <button onclick="start()">Start</button>
+    
+</div>
+</div>
+
+<div id="main" style="display:none;">
+<button onclick="goBackPage()">⬅ Back</button>
+    <h2 id="welcome"></h2>
+
+    <!-- PAGE 1 -->
+    <div id="page1">
+        <h3>Select Flight</h3>
+         <!-- 🌤 Weather -->
+        <div id="weatherBox"></div>
+
+        <div id="flights"></div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div id="page2" style="display:none;">
+        <h3>Select Seats</h3>
+        <div id="seatMap"></div>
+        <button class="next-btn" onclick="goToPage3()">Next ➡</button>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div id="page3" style="display:none;">
+    <div class="card booking-card">
+
+        <h2>✈ Booking Details</h2>
+
+        <div class="section">
+            <h3>🎯 Trip Purpose</h3>
+            <div class="btn-group">
+                <button onclick="setPurpose('Vacation')">🌴 Vacation</button>
+                <button onclick="setPurpose('Business')">💼 Business</button>
+                <button onclick="setPurpose('Emergency')">🚑 Emergency</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>⚙ Booking Type</h3>
+            <div class="btn-group">
+                <button onclick="setRisk('Safe')">🛡 Safe</button>
+                <button onclick="setRisk('Risk')">🎲 Risk</button>
+            </div>
+        </div>
+
+        <button class="confirm-btn" onclick="confirmBooking()">
+            ✅ Confirm Booking
+        </button>
+
+    </div>
+    </div>
+<div id="page4" style="display:none;">
+    <div class="card booking-card">
+
+        <h2>💳 Payment</h2>
+
+        <input placeholder="Card Number" id="cardNo">
+        <input placeholder="Card Holder Name" id="cardName">
+        <input placeholder="CVV" id="cvv">
+
+        <br><br>
+
+        <button onclick="processPayment()">Pay Now</button>
+
+      
+    </div>
+
+</div>
+
+    <div id="ticket"></div>
+
+</div>
+
+<script>
+
+let currentUser = localStorage.getItem("currentUser");
+
+// 🚫 block access if not logged in
+if(!currentUser && !window.location.pathname.includes("login.html")){
+    window.location.href = "login.html";
+}
+
+
+
+let flights = [
+    {id:1, route:"Chennai-Delhi", depart:"10:00 AM", arrive:"11:30 AM", seats:12, price:5000},
+    {id:2, route:"Chennai-Delhi", depart:"2:30 PM", arrive:"4:00 PM", seats:18, price:5200},
+    {id:3, route:"Chennai-Delhi", depart:"7:45 PM", arrive:"9:15 PM", seats:10, price:4800},
+
+    {id:4, route:"Chennai-Mumbai", depart:"9:00 AM", arrive:"10:45 AM", seats:10, price:4500},
+    {id:5, route:"Chennai-Mumbai", depart:"1:15 PM", arrive:"3:00 PM", seats:14, price:4700}
+];
+
+let user = {};
+let selectedFlight = null;
+let selectedSeats = [];
+let bookingStatus = "Normal";
+let purpose = "";
+let risk = "";
+let fromCity = "";
+let toCity = "";
+let travelDate = "";
+let finalPrice = 0;
+// check login
+
+function start() {
+
+    let name = currentUser; // instead of input
+    fromCity = document.getElementById("from").value;
+    toCity = document.getElementById("to").value;
+    travelDate = document.getElementById("date").value;
+
+    if(!name || !fromCity || !toCity || !travelDate) {
+        alert("Fill all details");
+        return;
+    }
+    if(fromCity === toCity){
+    alert("From and To cannot be same");
+    return;
+    }
+
+    user = JSON.parse(localStorage.getItem(name)) || {name, trips:0, cancellations:0};
+
+    document.getElementById("welcome").innerText =
+        `Welcome ${name} (${fromCity} → ${toCity})`;
+
+    document.getElementById("homePage").style.display = "none"; // hide form
+    document.getElementById("main").style.display = "block";   // show flights
+    showWeather();
+    showFlights();
+}
+function goBackPage() {
+
+    // If you're in seat selection → go back to flights
+    if(document.getElementById("page2").style.display === "block"){
+        document.getElementById("page2").style.display = "none";
+        document.getElementById("page1").style.display = "block";
+    }
+
+    // If you're in booking page → go back to seats
+    else if(document.getElementById("page3").style.display === "block"){
+        document.getElementById("page3").style.display = "none";
+        document.getElementById("page2").style.display = "block";
+    }
+
+    // If you're in payment → go back to booking
+    else if(document.getElementById("page4").style.display === "block"){
+        document.getElementById("page4").style.display = "none";
+        document.getElementById("page3").style.display = "block";
+    }
+}
+function cancelBooking(){
+
+    if(!selectedFlight) return;
+
+    let refund = 0;
+
+    // 🎯 Refund logic
+    if(risk === "Risk"){
+        refund = Math.floor(finalPrice * 0.5); // 50% refund
+    } else {
+        refund = Math.floor(finalPrice * 0.8); // 80% refund
+    }
+
+    // restore seats
+    selectedFlight.seats += selectedSeats.length;
+
+    user.cancellations++;
+    user.trips--;
+
+    localStorage.setItem(user.name, JSON.stringify(user));
+
+    // 🎉 show refund message
+    document.getElementById("ticket").innerHTML = `
+        <div class="ticket">
+            <h5>❌ Ticket Cancelled</h5>
+            <p>💰 Refund Amount: ₹${refund}</p>
+            <p>Status: Refunded</p>
+        </div>
+    `;
+
+    alert("Refund processed: ₹" + refund);
+}
+
+
+function showFlights() {
+
+    let html = "<h2>Flights</h2>";
+
+    // ❌ prevent same city
+    if(fromCity === toCity){
+        html += "<p>Choose different cities</p>";
+        document.getElementById("flights").innerHTML = html;
+        return;
+    }
+
+    // 🎯 generate 3 flights dynamically
+    let timings = [
+        {depart:"8:00 AM", arrive:"10:00 AM"},
+        {depart:"1:00 PM", arrive:"3:00 PM"},
+        {depart:"7:00 PM", arrive:"9:00 PM"}
+    ];
+
+    let generatedFlights = [];
+
+    timings.forEach((t, index) => {
+        generatedFlights.push({
+            id: index + 1,
+            route: `${fromCity}-${toCity}`,
+            depart: t.depart,
+            arrive: t.arrive,
+            seats: Math.floor(Math.random()*10)+10,
+            price: Math.floor(Math.random()*2000)+4000
+        });
+    });
+
+    // store temporarily
+    flights = generatedFlights;
+
+    generatedFlights.forEach(f => {
+        html += `
+        <div class="card flight">
+            <div class="flight-left">
+                <b>${f.route}</b> | ⏰ ${f.depart} → ${f.arrive}<br>
+                Seats: ${f.seats} | ₹${f.price}
+            </div>
+
+            <button onclick="selectFlight(${f.id})">Select</button>
+        </div>`;
+    });
+
+    document.getElementById("flights").innerHTML = html;
+}
+
+function selectFlight(id) {
+    selectedFlight = flights.find(f => f.id === id);
+    selectedSeats = [];
+
+    document.getElementById("page1").style.display = "none";
+    document.getElementById("page2").style.display = "block";
+
+    generateSeatMap();
+}
+
+function goToPage3() {
+
+    if(selectedSeats.length === 0) {
+        alert("Select at least 1 seat");
+        return;
+    }
+
+    document.getElementById("page2").style.display = "none";
+    document.getElementById("page3").style.display = "block";
+}
+
+
+function getSeatLabel(row, col) {
+    const cols = ["A","B","C","D","E","F"];
+    return row + cols[col];
+}
+
+function getSeatType(col) {
+    if(col === 0 || col === 5) return "W"; // Window
+    if(col === 2 || col === 3) return "A"; // Aisle
+    return "M"; // Middle
+}
+function getRandomWeather() {
+    let types = [
+        "☀ Sunny", "🌧 Rain", "🌥 Cloudy",
+        "🌩 Storm", "🌫 Fog", "🌤 Warm"
+    ];
+
+    let temp = Math.floor(Math.random() * 10) + 25; // 25–35°C
+    let type = types[Math.floor(Math.random() * types.length)];
+
+    return `${type} • ${temp}°C`;
+}
+
+function showWeather(){
+
+    let weatherData = {
+        "Delhi": {
+            "2026-03-25": "☀ Hot • 32°C",
+            "2026-03-26": "🌥 Cloudy • 30°C",
+            "2026-03-27": "🌧 Rain • 28°C"
+        },
+        "Mumbai": {
+            "2026-03-25": "🌧 Rain • 30°C",
+            "2026-03-26": "🌤 Humid • 31°C"
+        },
+        "Chennai": {
+            "2026-03-25": "🌞 Sunny • 34°C"
+        }
+    };
+
+    let weather = weatherData[toCity]?.[travelDate] || getRandomWeather();
+
+    document.getElementById("weatherBox").innerHTML = `
+        <div class="card" style="width:400px; padding:12px;">
+            🌤 <b>Weather on ${travelDate} at ${toCity}</b><br>
+            ${weather}
+        </div>
+    `;
+}
+function generateSeatMap() {
+
+    let seatMap = document.getElementById("seatMap");
+    seatMap.innerHTML = '<div class="seat-grid"></div>';
+    let grid = seatMap.firstChild;
+
+    let totalSeats = selectedFlight.seats;
+    let seatCount = 0;
+
+    for(let row = 1; row <= 10; row++) {
+
+        let rowDiv = document.createElement("div");
+        rowDiv.className = "row";
+
+        // Row number
+        let num = document.createElement("div");
+        num.className = "row-number";
+        num.innerText = row;
+        rowDiv.appendChild(num);
+
+        for(let col = 0; col < 6; col++) {
+
+            // aisle gap after C
+            if(col === 3) {
+                let gap = document.createElement("div");
+                gap.className = "aisle";
+                rowDiv.appendChild(gap);
+            }
+
+            let seat = document.createElement("div");
+            seat.classList.add("seat");
+
+            let label = getSeatLabel(row, col);
+            let type = getSeatType(col);
+
+            seat.innerHTML = label + "<br><small>" + type + "</small>";
+
+            if(seatCount < totalSeats) {
+                seat.classList.add("available");
+
+                seat.onclick = () => toggleSeat(label, seat);
+                seatCount++;
+            } else {
+                seat.classList.add("booked");
+            }
+
+            rowDiv.appendChild(seat);
+        }
+
+        grid.appendChild(rowDiv);
+    }
+}
+
+function toggleSeat(label, el) {
+
+    if(selectedSeats.includes(label)) {
+        selectedSeats = selectedSeats.filter(s => s !== label);
+        el.classList.remove("selected");
+        el.classList.add("available");
+    } else {
+        selectedSeats.push(label);
+        el.classList.remove("available");
+        el.classList.add("selected");
+    }
+}
+
+function setPurpose(p) {
+    purpose = p;
+}
+
+function setRisk(r) {
+    risk = r;
+}
+
+function setPurpose(p) {
+    purpose = p;
+    highlightButtons(event);
+}
+
+function setRisk(r) {
+    risk = r;
+    highlightButtons(event);
+}
+
+function highlightButtons(e){
+    let buttons = e.target.parentElement.querySelectorAll("button");
+    buttons.forEach(btn => btn.style.opacity = "0.6");
+    e.target.style.opacity = "1";
+}
+
+function downloadTicket() {
+
+    let content = `
+AIRLINE TICKET
+------------------------
+Passenger: ${user.name}
+Route: ${selectedFlight.route}
+From: ${fromCity}
+To: ${toCity}
+Date: ${travelDate}
+Seats: ${selectedSeats.join(", ")}
+
+Purpose: ${purpose}
+Type: ${risk}
+Status: ${bookingStatus}
+
+Total: ₹${finalPrice}
+------------------------
+`;
+
+    let blob = new Blob([content], { type: "text/plain" });
+
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "ticket.txt";
+
+    link.click();
+}
+function processPayment() {
+
+    let card = document.getElementById("cardNo").value;
+    let name = document.getElementById("cardName").value;
+    let cvv = document.getElementById("cvv").value;
+
+    if(!card || !name || !cvv){
+        alert("Enter payment details");
+        return;
+    }
+
+    // fake processing delay
+    alert("Processing Payment...");
+
+    setTimeout(() => {
+
+        alert("✅ Payment Successful!");
+
+        // go back to ticket display
+        document.getElementById("page4").style.display = "none";
+
+        generateTicket(); // 🔥 call ticket function
+
+    }, 1500);
+}
+
+function confirmBooking() {
+
+    if(!selectedFlight || selectedSeats.length === 0)
+        return alert("Select flight & seats");
+
+    let basePrice = selectedFlight.price * selectedSeats.length;
+    let price = basePrice;
+    
+
+    // Risk discount
+    if(risk === "Risk") {
+        price = Math.floor(basePrice * 0.7);
+        alert("🎲 Risk Booking: You got a discounted price!");
+ // 30% cheaper
+    }   
+    if(purpose === "Vacation") price += 500;
+    if(purpose === "Emergency") price -= 1000;
+    finalPrice = price;
+
+    if(risk === "Risk") {
+        if(Math.random() < 0.5) {
+            bookingStatus = "Upgraded 😎";
+            alert("😎 Upgrade!");
+        } else {
+            bookingStatus = "Last Seat 😬";
+            alert("😬 Last seats!");
+        }
+    } else {
+        bookingStatus = "Normal 😐";
+    }
+
+    selectedFlight.seats -= selectedSeats.length;
+    user.trips++;
+
+    localStorage.setItem(user.name, JSON.stringify(user));
+
+    document.getElementById("page3").style.display = "none";
+    document.getElementById("page4").style.display = "block";
+
+}
+function generateTicket() {
+    document.getElementById("ticket").innerHTML = `
+        <div class="ticket">
+
+         <div class="ticket-left">
+            <h3 style="text-align:center; color:black;">✈ AIRLINE TICKET</h3>
+            <hr>
+
+            <b>Passenger:</b> ${user.name}<br>
+            <b>Route:</b> ${selectedFlight.route}<br>
+            <b>From:</b> ${fromCity}<br>
+            <b>To:</b> ${toCity}<br>
+            <b>Date:</b> ${travelDate}<br>
+            <b>Seats:</b> ${selectedSeats.join(", ")}<br>
+
+            <br>
+            <b>Base Price:</b> ₹${selectedFlight.price}<br>
+            <b>Final Price:</b> ₹${finalPrice}
+         </div>
+
+         <div class="ticket-divider"></div>
+
+         <div class="ticket-right">
+            <h3 style="color:black;">Details</h3>
+            <hr>
+            <b>Purpose:</b> ${purpose}<br>
+            <b>Type:</b> ${risk}<br>
+            <b>Status:</b> ${bookingStatus}<br>
+            <br>
+            <b>Total:</b> ₹${finalPrice}
+            <br><br>
+            <button onclick="downloadTicket()">Download Ticket</button>
+            <button onclick="cancelBooking()">Cancel Ticket</button>
+         </div>
+        </div>
+    `;
+}
+function goBack(){
+    document.getElementById("main").style.display = "none";
+    document.getElementById("homePage").style.display = "block";
+}
+
+window.onload = function(){
+    let today = new Date().toISOString().split("T")[0];
+    document.getElementById("date").setAttribute("min", today);
+
+   
+};
+</script>
+</body>
+</html>

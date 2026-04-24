@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - Airline</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: 
+        linear-gradient(rgba(2,6,23,0.7), rgba(2,6,23,0.9)),
+        url("geo.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+@keyframes bg {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.login-box {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 15px;
+    width: 350px;
+    text-align: center;
+   
+    position: relative;
+    z-index: 2;
+
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+
+    background: #0f172a;
+    color: white;
+}
+
+input:focus {
+    box-shadow: 0 0 10px #38bdf8;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #38bdf8, #6366f1);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.switch {
+    color: #94a3b8;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.switch span {
+    color: #38bdf8;
+}
+/* PLANES BACKGROUND */
+.planes {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.planes img {
+    position: absolute;
+    width: 35px;
+    opacity: 0.15;
+    animation: fly linear infinite;
+}
+
+/* different positions */
+.planes img:nth-child(1) {
+    top: 10%;
+    animation-duration: 18s;
+}
+
+.planes img:nth-child(2) {
+    top: 30%;
+    animation-duration: 25s;
+    transform: scale(0.8);
+}
+
+.planes img:nth-child(3) {
+    top: 60%;
+    animation-duration: 20s;
+    transform: scale(1.2);
+}
+
+.planes img:nth-child(4) {
+    top: 80%;
+    animation-duration: 30s;
+    transform: scale(0.7);
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    padding: 15px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: aliceblue;
+    
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 25px;
+    margin-right: 60px;
+}
+
+.nav-buttons a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.nav-buttons a:hover {
+    color: #38bdf8;
+}
+
+@keyframes fly {
+    0% {
+        left: -50px;
+        transform: translateY(0) rotate(10deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    100% {
+        left: 110%;
+        transform: translateY(0) rotate(10deg);
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="navbar">
+    <div class="logo">✈ Airline Reservation</div>
+
+    <div class="nav-buttons">
+        <a href="home.html">Home</a>
+        <a href="support.html">Home</a>
+        
+       
+        <a href="login.html">Login</a>
+    </div>
+</div>
+<div class="planes">
+    <img src="https://cdn-icons-png.flaticon.com/512/7893/7893979.png">
+    <img src="https://cdn-icons-png.flaticon.com/512/7893/7893979.png">
+    <img src="https://cdn-icons-png.flaticon.com/512/7893/7893979.png">
+    <img src="https://cdn-icons-png.flaticon.com/512/7893/7893979.png">
+</div>
+
+<div class="login-box">
+    <h2 id="title">Login</h2>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="handleAuth()">Login</button>
+
+    <div class="switch" onclick="toggleMode()">
+        Don't have an account? <span>Register</span>
+    </div>
+</div>
+
+<script>
+
+let isLogin = true;
+
+function toggleMode() {
+    isLogin = !isLogin;
+
+    document.getElementById("title").innerText = isLogin ? "Login" : "Register";
+    document.querySelector("button").innerText = isLogin ? "Login" : "Register";
+
+    document.querySelector(".switch").innerHTML = isLogin
+        ? `Don't have an account? <span>Register</span>`
+        : `Already have an account? <span>Login</span>`;
+}
+
+function handleAuth() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    if(!user || !pass) {
+        alert("Fill all fields");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if(isLogin) {
+        // LOGIN
+        if(users[user] && users[user] === pass) {
+            localStorage.setItem("currentUser", user);
+            window.location.href = "index.html"; // go to main page
+        } else {
+            alert("Invalid credentials");
+        }
+    } else {
+        // REGISTER
+        if(users[user]) {
+            alert("User already exists");
+            return;
+        }
+
+        users[user] = pass;
+        localStorage.setItem("users", JSON.stringify(users));
+
+        alert("Account created! Now login.");
+        toggleMode();
+    }
+}
+
+let planes = document.querySelectorAll(".planes img");
+
+planes.forEach(p => {
+    p.style.top = Math.random() * 100 + "%";
+    p.style.animationDuration = (15 + Math.random()*20) + "s";
+    p.style.opacity = 0.1 + Math.random() * 0.2;
+});
+
+</script>
+
+</body>
+</html>
