@@ -30,7 +30,7 @@ Score = (Trips × 10) - (Cancellations × 15)
 
 Passengers with a negative score are marked as risky.
 
-Trip Purpose Pricing
+## Trip Purpose Pricing
 
 The ticket price changes depending on the purpose of the trip:
 
@@ -47,29 +47,34 @@ Preferred Route
 
 The passenger's most recently booked route is stored as their preferred route.
 
-🛠️ Technologies Used
+## 🛠️ Technologies Used
 Java
 Object-Oriented Programming
 File Handling
 ArrayList
 Random
 Scanner
-📂 Project Structure
+
+## 📂 Project Structure
+```
 AirlineReservation/
 │
 ├── AirlineReservation.java
 ├── users.txt
 └── README.md
-▶️ How to Run
+```
+## ▶️ How to Run
 
 Compile the program:
-
+```
 javac AirlineReservation.java
-
-Run the program:
-
+```
+## Run the program:
+```
 java AirlineReservation
-📋 Main Menu
+```
+
+## 📋 Main Menu
 --- Airline System ---
 1. View Flights
 2. Book Ticket
@@ -80,13 +85,14 @@ java AirlineReservation
 Passenger information is stored in a users.txt file using Java file handling.
 
 The stored information includes:
-
+```
 Passenger name
 Behavior score
 Number of trips
 Number of cancellations
 Preferred route
-🎯 Learning Objectives
+```
+## 🎯 Learning Objectives
 
 This project demonstrates:
 
