@@ -95,7 +95,7 @@ Preferred route
 ## 🎯 Learning Objectives
 
 This project demonstrates:
-
+```
 Java classes and objects
 Constructors
 ArrayList
@@ -105,3 +105,16 @@ User input using Scanner
 Conditional logic
 Random number generation
 Basic data persistence
+```
+
+## 🔮 Future Improvements
+```
+Database integration using MySQL
+Graphical User Interface
+Interactive seat selection
+Flight search and filtering
+Login and authentication
+Payment integration
+Real-time flight availability
+Weather-based flight information
+```
