@@ -64,7 +64,7 @@ AirlineReservation/
 ```
 ## ▶️ How to Run
 
-Compile the program:
+Compile the
 ```
 javac AirlineReservation.java
 ```
