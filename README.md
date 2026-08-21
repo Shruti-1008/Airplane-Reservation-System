@@ -107,6 +107,7 @@ Basic data persistence
 ```
 
 ## 🔮 Future Improvements
+
 ```
 Database integration using MySQL
 Graphical User Interface
