@@ -35,7 +35,7 @@ The ticket price changes depending on the purpose of the trip:
 
 Vacation → ₹500 additional charge
 Business → Normal price
-Emergency → ₹1000 d
+Emergency → ₹1000 discount
 Risk Mode
 
 Passengers can choose a risk-based booking option.
