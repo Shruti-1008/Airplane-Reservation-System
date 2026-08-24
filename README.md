@@ -1,6 +1,6 @@
 # ✈️ Airline Reservation System
 
-A Java-based console application that allows users to view flights, book tickets, cancel tickets, and maintain passenger travel information.
+ Java-based console application that allows users to view flights, book tickets, cancel tickets, and maintain passenger travel information.
 
 The project also includes additional features such as passenger behavior scoring, trip-purpose-based pricing, preferred route tracking, and risk-based booking.
 
