@@ -7,8 +7,8 @@ The project also includes additional features such as passenger behavior scoring
 ## 🚀 Features:
 
 - ✈️ View available
-- 🎫 Book airline tickets
-- ❌ Cancel tickets
+- 🎫 Book airline tickets flights
+- ❌ Cancel tickets 
 - 👤 Passenger profile management
 - 📊 Passenger Behavior Score
 - 🧳 Trip Purpose selection
