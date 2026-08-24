@@ -15,7 +15,7 @@ The project also includes additional features such as passenger behavior scoring
 - 💰 Dynamic ticket pricing
 - 🪑 Automatic seat assignment
 - 💾 Persistent user data using files
-- 🛫 Preferred route tracking
+- 🛫 Preferred route
 
 ## 🧠 Special Features
 
