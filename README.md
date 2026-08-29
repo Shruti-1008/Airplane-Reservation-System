@@ -1,10 +1,10 @@
-# ✈️ Airline Reservation System !!
+# ✈️ Airline Reservation System 
 
  Java-based console application that allows users to view flights, book tickets, cancel tickets, and maintain passenger travel information.
 
 The project also includes additional features such as passenger behavior scoring, trip-purpose-based pricing, preferred route tracking, and risk-based booking.
 
-## 🚀 Features:
+## 🚀 Features:-
 
 - ✈️ View available
 - 🎫 Book airline tickets flights
@@ -17,7 +17,7 @@ The project also includes additional features such as passenger behavior scoring
 - 💾 Persistent user data using files
 - 🛫 Preferred route checking
 
-## 🧠 Special Features
+## 🧠 Special Features:-
 
 ### Passenger Behavior Score
 
@@ -29,7 +29,7 @@ Score = (Trips × 10) - (Cancellations × 15)
 
 Passengers with a negative score are marked as risky.
 
-## Trip Purpose Pricing
+## Trip Purpose Pricing:-
 
 The ticket price changes depending on the purpose of the trip:
 
@@ -46,7 +46,7 @@ Preferred Route
 
 The passenger's most recently booked route is stored as their preferred route.
 
-## 🛠️ Technologies Used
+## 🛠️ Technologies Used:-
 Java
 Object-Oriented Programming
 File Handling
