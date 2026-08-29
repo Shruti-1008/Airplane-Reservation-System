@@ -5,7 +5,7 @@
 The project also includes additional features such as passenger behavior scoring, trip-purpose-based pricing, preferred route tracking, and risk-based booking.
 
 ## 🚀 Features:-
-oogogogogog
+
 - ✈️ View available
 - 🎫 Book airline tickets flights
 - ❌ Cancel tickets 
@@ -19,7 +19,7 @@ oogogogogog
 
 ## 🧠 Special Features:-
 
-### Passenger Behavior Score
+### Passenger Behavior Score:
 
 A passenger's score is calculated based on their previous trips and cancellations.
 
